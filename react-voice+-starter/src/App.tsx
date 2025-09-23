@@ -7,6 +7,7 @@ import Contact from './pages/Contact'
 import Pricing from './pages/Pricing'
 import Commands from './pages/Commands'
 import ConfigureTouchpoint from './pages/ConfigureTouchpoint'
+import TicTacToe from './pages/TicTacToe'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/commands" element={<Commands />} />
+              <Route path="/tic-tac-toe" element={<TicTacToe />} />
               <Route path="/configure" element={<ConfigureTouchpoint />} />
             </Routes>
           </Layout>
