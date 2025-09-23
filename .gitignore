@@ -100,3 +100,31 @@ jspm_packages/
 # Temporary folders
 tmp/
 temp/
+
+# Deployment files
+deploy-to-aws-secure.sh
+deploy-to-aws.sh
+deploy-updates-secure.sh
+deployment-info-secure.txt
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
