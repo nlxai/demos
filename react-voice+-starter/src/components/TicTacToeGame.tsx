@@ -6,11 +6,30 @@ import TicTacToeStatus from './TicTacToeStatus';
 type GameStatus = 'idle' | 'playing' | 'won' | 'draw' | 'error';
 type Player = 'X' | 'O' | null;
 
+interface VoicePlusMovePayload {
+  userMove?: { position: number };     // User's spoken move (1-9)
+  computerMove?: { position: number };  // Voice+ AI's calculated response (0-9, 0 if game ended)
+}
+
 const WINNING_LINES = [
   [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
   [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
   [0, 4, 8], [2, 4, 6]             // diagonals
 ];
+
+interface GameEvaluation {
+  status: GameStatus;
+  winner: Player;
+  line: number[] | null;
+}
+
+interface MoveResult {
+  board: string[];
+  status: GameStatus;
+  winner: Player;
+  line: number[] | null;
+  error?: string;
+}
 
 export default function TicTacToeGame() {
   const [board, setBoard] = useState<string[]>(Array(9).fill(''));
@@ -28,8 +47,14 @@ export default function TicTacToeGame() {
       .filter((pos): pos is number => pos !== null);
   }, [board]);
 
-  const isValidMove = (position: number, boardState: string[]): boolean => {
-    return position >= 1 && position <= 9 && boardState[position - 1] === '';
+  const validateMove = (position: number, boardState: string[], player: string): { valid: boolean; error?: string } => {
+    if (position < 1 || position > 9) {
+      return { valid: false, error: `Invalid position ${position}: must be 1-9` };
+    }
+    if (boardState[position - 1] !== '') {
+      return { valid: false, error: `Position ${position} is already occupied` };
+    }
+    return { valid: true };
   };
 
   const checkWinner = (boardState: string[]): { winner: string | null; line: number[] | null } => {
@@ -44,6 +69,57 @@ export default function TicTacToeGame() {
 
   const checkDraw = (boardState: string[]): boolean => {
     return boardState.every(cell => cell !== '') && !checkWinner(boardState).winner;
+  };
+
+  const applyMove = (boardState: string[], position: number, player: 'X' | 'O'): string[] => {
+    const newBoard = [...boardState];
+    newBoard[position - 1] = player;
+    return newBoard;
+  };
+
+  const evaluateGameState = (boardState: string[]): GameEvaluation => {
+    const winResult = checkWinner(boardState);
+    if (winResult.winner) {
+      return {
+        status: 'won',
+        winner: winResult.winner as Player,
+        line: winResult.line
+      };
+    }
+    if (checkDraw(boardState)) {
+      return {
+        status: 'draw',
+        winner: null,
+        line: null
+      };
+    }
+    return {
+      status: 'playing',
+      winner: null,
+      line: null
+    };
+  };
+
+  const processMove = (boardState: string[], position: number, player: 'X' | 'O'): MoveResult => {
+    const validation = validateMove(position, boardState, player);
+
+    if (!validation.valid) {
+      return {
+        board: boardState,
+        status: 'playing',
+        winner: null,
+        line: null,
+        error: validation.error
+      };
+    }
+
+    const newBoard = applyMove(boardState, position, player);
+    const evaluation = evaluateGameState(newBoard);
+
+    return {
+      board: newBoard,
+      ...evaluation
+    };
   };
 
   // Start game handler
@@ -64,26 +140,33 @@ export default function TicTacToeGame() {
     setWinningLine(null);
   }, []);
 
-  // Make move handler
-  const handleMakeMove = useCallback((payload: any) => {
+  const handleMakeMove = useCallback((payload: VoicePlusMovePayload) => {
+    // 1. Validate game state
     if (gameStatus !== 'playing') {
       setLastError('Please start a new game first');
       return;
     }
-    console.log(payload)
 
-    const newBoard = [...board];
-    let newStatus: GameStatus = gameStatus;
-    let newWinner: Player = winner;
-    let newError: string | null = null;
-    let newWinningLine: number[] | null = null;
+    console.log('Voice+ payload received:', {
+      userMove: payload.userMove,
+      computerMove: payload.computerMove,
+      boardBefore: board.map((c, i) => c || i + 1).join(',')
+    });
 
-    // Process user move
+    let currentBoard = board;
+    let gameResult: MoveResult = {
+      board: currentBoard,
+      status: 'playing',
+      winner: null,
+      line: null
+    };
+
+    // 2. Process user move from Voice+
     if (payload.userMove?.position) {
-      const userPos = payload.userMove.position;
+      gameResult = processMove(currentBoard, payload.userMove.position, 'X');
 
-      if (!isValidMove(userPos, newBoard)) {
-        setLastError(`Invalid move: Position ${userPos} is not available`);
+      if (gameResult.error) {
+        setLastError(gameResult.error);
         setGameStatus('error');
         setTimeout(() => {
           setGameStatus('playing');
@@ -92,53 +175,42 @@ export default function TicTacToeGame() {
         return;
       }
 
-      newBoard[userPos - 1] = 'X';
-
-      // Check for user win
-      const userResult = checkWinner(newBoard);
-      if (userResult.winner) {
-        newStatus = 'won';
-        newWinner = 'X';
-        newWinningLine = userResult.line;
-      } else if (checkDraw(newBoard)) {
-        newStatus = 'draw';
-      }
+      currentBoard = gameResult.board;
     }
 
-    // Process computer move if game is still playing
-    if (newStatus === 'playing' && payload.computerMove?.position) {
+    // 3. Process Voice+ AI move if game still playing
+    if (gameResult.status === 'playing' && payload.computerMove?.position) {
       const compPos = payload.computerMove.position;
 
-      if (!isValidMove(compPos, newBoard)) {
-        setLastError(`Voice+ made invalid move: Position ${compPos}`);
-        setGameStatus('error');
-        setTimeout(() => {
-          setGameStatus('playing');
-          setLastError(null);
-        }, 3000);
-        return;
-      }
+      // Voice+ sends 0 if user already won
+      if (compPos > 0) {
+        const computerResult = processMove(currentBoard, compPos, 'O');
 
-      newBoard[compPos - 1] = 'O';
+        if (computerResult.error) {
+          setLastError(`Voice+ error: ${computerResult.error}`);
+          setGameStatus('error');
+          setTimeout(() => {
+            setGameStatus('playing');
+            setLastError(null);
+          }, 3000);
+          return;
+        }
 
-      // Check for computer win
-      const compResult = checkWinner(newBoard);
-      if (compResult.winner) {
-        newStatus = 'won';
-        newWinner = 'O';
-        newWinningLine = compResult.line;
-      } else if (checkDraw(newBoard)) {
-        newStatus = 'draw';
+        gameResult = computerResult;
       }
     }
 
-    // Update all state
-    setBoard(newBoard);
-    setGameStatus(newStatus);
-    setWinner(newWinner);
-    setLastError(newError);
-    setWinningLine(newWinningLine);
-  }, [board, gameStatus, winner]);
+    // 4. Update all state atomically
+    if (gameResult.status !== gameStatus) {
+      console.log(`Game state transition: ${gameStatus} → ${gameResult.status}`);
+    }
+
+    setBoard(gameResult.board);
+    setGameStatus(gameResult.status);
+    setWinner(gameResult.winner);
+    setLastError(null);
+    setWinningLine(gameResult.line);
+  }, [board, gameStatus]);
 
   // Register voice commands
   useTouchpointCustomCommand({
@@ -161,7 +233,7 @@ export default function TicTacToeGame() {
     handler: handleResetGame
   });
 
-  // Dynamic move command with board state
+  // Context sent to Voice+ NLU on every render
   const boardDisplay = board.map((cell, i) => cell || `${i + 1}`).join(',');
   const available = getAvailablePositions();
   const availableStr = available.length > 0 ? available.join(',') : 'none';
@@ -211,13 +283,13 @@ export default function TicTacToeGame() {
     handler: handleMakeMove
   });
 
-  // Manual cell click handler (for testing without voice)
+  // Manual click handler - useful for testing Voice+ integration
   const handleCellClick = (index: number) => {
     if (gameStatus !== 'playing') return;
 
-    // Simulate a move command with just user move
     handleMakeMove({
-      userMove: { position: index + 1 }
+      userMove: { position: index + 1 },
+      // In real Voice+ flow, computerMove would be provided
     });
   };
 
