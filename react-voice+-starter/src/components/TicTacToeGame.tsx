@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useTouchpointCustomCommand } from '../contexts/TouchpointContext';
 import TicTacToeBoard from './TicTacToeBoard';
 import TicTacToeStatus from './TicTacToeStatus';
@@ -124,6 +124,9 @@ export default function TicTacToeGame() {
 
   // Start game handler
   const handleStartGame = useCallback(() => {
+    console.log('=== NEW GAME STARTED ===');
+    console.log('Voice+ Tic-Tac-Toe: User (X) vs Voice+ AI (O)');
+    console.log('Game context will be sent to Voice+ with each command');
     setBoard(initializeBoard());
     setGameStatus('playing');
     setWinner(null);
@@ -133,6 +136,7 @@ export default function TicTacToeGame() {
 
   // Reset game handler
   const handleResetGame = useCallback(() => {
+    console.log('Game reset - returning to idle state');
     setBoard(initializeBoard());
     setGameStatus('idle');
     setWinner(null);
@@ -147,10 +151,11 @@ export default function TicTacToeGame() {
       return;
     }
 
-    console.log('Voice+ payload received:', {
-      userMove: payload.userMove,
-      computerMove: payload.computerMove,
-      boardBefore: board.map((c, i) => c || i + 1).join(',')
+    console.log('\n=== VOICE+ PAYLOAD RECEIVED ===');
+    console.log('Board state BEFORE moves:', board.map((c, i) => c || (i + 1)).join(','));
+    console.log('Voice+ understood:', {
+      userCommand: payload.userMove ? `Place X at position ${payload.userMove.position}` : 'No user move',
+      aiDecision: payload.computerMove ? `Place O at position ${payload.computerMove.position}` : 'No AI move'
     });
 
     let currentBoard = board;
@@ -163,9 +168,11 @@ export default function TicTacToeGame() {
 
     // 2. Process user move from Voice+
     if (payload.userMove?.position) {
+      console.log(`\nProcessing user move: X -> position ${payload.userMove.position}`);
       gameResult = processMove(currentBoard, payload.userMove.position, 'X');
 
       if (gameResult.error) {
+        console.log(`[ERROR] Move validation failed: ${gameResult.error}`);
         setLastError(gameResult.error);
         setGameStatus('error');
         setTimeout(() => {
@@ -176,6 +183,13 @@ export default function TicTacToeGame() {
       }
 
       currentBoard = gameResult.board;
+      console.log('User move applied successfully');
+
+      if (gameResult.status === 'won') {
+        console.log('[GAME OVER] USER WINS!');
+      } else if (gameResult.status === 'draw') {
+        console.log('[GAME OVER] It\'s a DRAW!');
+      }
     }
 
     // 3. Process Voice+ AI move if game still playing
@@ -184,9 +198,11 @@ export default function TicTacToeGame() {
 
       // Voice+ sends 0 if user already won
       if (compPos > 0) {
+        console.log(`\nProcessing Voice+ AI move: O -> position ${compPos}`);
         const computerResult = processMove(currentBoard, compPos, 'O');
 
         if (computerResult.error) {
+          console.log(`[ERROR] AI move validation failed: ${computerResult.error}`);
           setLastError(`Voice+ error: ${computerResult.error}`);
           setGameStatus('error');
           setTimeout(() => {
@@ -197,13 +213,29 @@ export default function TicTacToeGame() {
         }
 
         gameResult = computerResult;
+        console.log('Voice+ AI move applied successfully');
+
+        if (gameResult.status === 'won') {
+          console.log('[GAME OVER] VOICE+ WINS! Better luck next time.');
+        } else if (gameResult.status === 'draw') {
+          console.log('[GAME OVER] It\'s a DRAW! Well played.');
+        }
+      } else {
+        console.log('Voice+ recognized game already ended - no counter move needed');
       }
     }
 
     // 4. Update all state atomically
     if (gameResult.status !== gameStatus) {
-      console.log(`Game state transition: ${gameStatus} → ${gameResult.status}`);
+      console.log(`\nGame state transition: ${gameStatus} -> ${gameResult.status}`);
     }
+
+    console.log('Board state AFTER moves:', gameResult.board.map((c, i) => c || (i + 1)).join(','));
+    const remainingMoves = gameResult.board.filter(cell => cell === '').length;
+    if (gameResult.status === 'playing') {
+      console.log(`${remainingMoves} positions remaining`);
+    }
+    console.log('=================================\n');
 
     setBoard(gameResult.board);
     setGameStatus(gameResult.status);
@@ -237,6 +269,17 @@ export default function TicTacToeGame() {
   const boardDisplay = board.map((cell, i) => cell || `${i + 1}`).join(',');
   const available = getAvailablePositions();
   const availableStr = available.length > 0 ? available.join(',') : 'none';
+
+  // Log context updates when game is active
+  React.useEffect(() => {
+    if (gameStatus === 'playing' && available.length > 0) {
+      console.log('[CONTEXT] Ready for Voice+ NLU:');
+      console.log(`   Board: [${boardDisplay}]`);
+      console.log(`   Available: [${availableStr}]`);
+      console.log(`   Status: ${gameStatus}`);
+      console.log('   Waiting for voice command...\n');
+    }
+  }, [board, gameStatus, boardDisplay, availableStr, available.length]);
 
   const moveCommandDescription = `Make a move in tic-tac-toe game.
     Board positions: 1=top-left, 2=top-middle, 3=top-right,
