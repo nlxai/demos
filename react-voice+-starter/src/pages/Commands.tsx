@@ -3,6 +3,7 @@ import ButtonClickTest from '../components/ButtonClickTest';
 import CounterTest from '../components/CounterTest';
 import FormInputTest from '../components/FormInputTest';
 import ColorChangeTest from '../components/ColorChangeTest';
+import DiceRollerTest from '../components/DiceRollerTest';
 
 const PAGE_TITLE = 'Voice Commands Test Lab';
 const PAGE_SUBTITLE = 'Test and experiment with custom voice commands using useTouchpointCustomCommand. Each widget below demonstrates different voice interaction patterns.';
@@ -24,6 +25,7 @@ export default function Commands() {
         <div className="space-y-6">
           <FormInputTest />
           <ColorChangeTest />
+          <DiceRollerTest />
         </div>
       </div>
 

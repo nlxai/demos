@@ -6,6 +6,7 @@ export default function Navigation() {
     { path: '/contact', label: 'Contact' },
     { path: '/pricing', label: 'Pricing' },
     { path: '/commands', label: 'Commands' },
+    { path: '/tic-tac-toe', label: 'Tic-Tac-Toe' },
     { path: '/configure', label: 'Configure' },
   ]
 
