@@ -47,7 +47,7 @@ export default function TicTacToeGame() {
       .filter((pos): pos is number => pos !== null);
   }, [board]);
 
-  const validateMove = (position: number, boardState: string[], player: string): { valid: boolean; error?: string } => {
+  const validateMove = (position: number, boardState: string[]): { valid: boolean; error?: string } => {
     if (position < 1 || position > 9) {
       return { valid: false, error: `Invalid position ${position}: must be 1-9` };
     }
@@ -101,7 +101,7 @@ export default function TicTacToeGame() {
   };
 
   const processMove = (boardState: string[], position: number, player: 'X' | 'O'): MoveResult => {
-    const validation = validateMove(position, boardState, player);
+    const validation = validateMove(position, boardState);
 
     if (!validation.valid) {
       return {
