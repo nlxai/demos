@@ -41,14 +41,14 @@ export default function Contact() {
 
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="mx-auto w-full max-w-2xl">
       <SectionHeader 
         title="Contact Us"
         subtitle="Have questions about Voice+? We'd love to hear from you. Send us a message and we'll respond as soon as possible."
       />
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-8">
-        <div className="grid md:grid-cols-2 gap-6 mb-6">
+      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 sm:p-8">
+        <div className="grid gap-6 md:grid-cols-2 mb-6">
           <FormField
             id="firstName"
             name="firstName"
@@ -75,7 +75,7 @@ export default function Contact() {
           className="mb-6"
         />
 
-        <div className="grid md:grid-cols-2 gap-6 mb-6">
+        <div className="grid gap-6 md:grid-cols-2 mb-6">
           <FormField
             id="company"
             name="company"

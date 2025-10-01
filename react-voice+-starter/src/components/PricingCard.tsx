@@ -15,14 +15,13 @@ interface PricingCardProps {
 }
 
 export default function PricingCard({ plan, index, onSelect }: PricingCardProps) {
-  const cardClasses = `relative bg-white rounded-xl shadow-lg p-8 ${
-    plan.highlighted ? 'ring-2 ring-primary-500 scale-105' : ''
-  }`;
+  const CARD_BASE_CLASSES = 'relative bg-white rounded-xl shadow-lg p-6 sm:p-8'
+  const CARD_ACCENT_CLASSES = 'ring-2 ring-primary-500'
+  const BUTTON_BASE_CLASSES = 'btn w-full py-3 px-6'
+  const BUTTON_VARIANT_CLASS = plan.highlighted ? 'btn-primary' : 'btn-secondary'
+  const cardClasses = `${CARD_BASE_CLASSES} ${plan.highlighted ? CARD_ACCENT_CLASSES : ''}`
+  const buttonClasses = `${BUTTON_BASE_CLASSES} ${BUTTON_VARIANT_CLASS}`
   
-  const buttonClasses = `btn w-full py-3 px-6 ${
-    plan.highlighted ? 'btn-primary' : 'btn-secondary'
-  }`;
-
   return (
     <article 
       className={cardClasses}

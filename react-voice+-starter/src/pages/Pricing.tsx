@@ -67,7 +67,7 @@ export default function Pricing() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="mx-auto w-full max-w-6xl">
       <SectionHeader 
         title="Simple, Transparent Pricing"
         subtitle="Choose the perfect plan for your team. All plans include our core Voice+ features with a 14-day free trial."
@@ -76,7 +76,7 @@ export default function Pricing() {
       <section role="region" aria-labelledby="pricing-plans-heading">
         <h2 id="pricing-plans-heading" className="sr-only">Pricing Plans</h2>
         
-        <div className="grid lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3 mb-16">
           {PRICING_PLANS.map((plan, index) => (
             <PricingCard
               key={plan.name}
@@ -93,8 +93,8 @@ export default function Pricing() {
           Frequently Asked Questions
         </h2>
         
-        <div className="bg-white rounded-lg shadow-md p-8">
-          <dl className="space-y-8">
+        <div className="bg-white rounded-lg shadow-md p-6 sm:p-8">
+          <dl className="space-y-6 sm:space-y-8">
             <div>
               <dt className="text-lg font-semibold text-gray-900 mb-2">
                 What's included in the free trial?
@@ -143,7 +143,7 @@ export default function Pricing() {
         </div>
       </section>
 
-      <section role="region" aria-labelledby="contact-sales-heading" className="text-center bg-gray-50 rounded-lg p-8">
+      <section role="region" aria-labelledby="contact-sales-heading" className="text-center bg-gray-50 rounded-lg p-6 sm:p-8">
         <h2 id="contact-sales-heading" className="text-2xl font-semibold text-gray-900 mb-4">
           Need a Custom Solution?
         </h2>
