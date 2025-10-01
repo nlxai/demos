@@ -40,7 +40,7 @@ const HOW_IT_WORKS_STEPS = [
 
 export default function Home() {
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="mx-auto w-full max-w-4xl">
       <SectionHeader 
         title="Welcome to Voice+"
         subtitle="Experience the future of conversational AI with bidirectional voice interactions. Speak naturally and get intelligent responses in real-time."
@@ -51,7 +51,7 @@ export default function Home() {
           Key Features
         </h2>
         
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((feature, index) => (
             <FeatureCard
               key={index}
@@ -68,8 +68,8 @@ export default function Home() {
           How It Works
         </h2>
         
-        <div className="card p-8">
-          <ol className="space-y-6">
+        <div className="card p-6 sm:p-8">
+          <ol className="space-y-4 sm:space-y-6">
             {HOW_IT_WORKS_STEPS.map((step, index) => (
               <StepItem
                 key={index}

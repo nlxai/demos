@@ -6,7 +6,7 @@ interface FeatureCardProps {
   
   export default function FeatureCard({ icon, title, description }: FeatureCardProps) {
     return (
-      <article className="card p-6">
+    <article className="card p-6">
         <div className="text-primary-600 mb-4" aria-hidden="true">
           {icon}
         </div>

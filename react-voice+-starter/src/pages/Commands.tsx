@@ -10,13 +10,13 @@ const PAGE_SUBTITLE = 'Test and experiment with custom voice commands using useT
 
 export default function Commands() {
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="mx-auto w-full max-w-6xl space-y-6">
       <SectionHeader 
         title={PAGE_TITLE}
         subtitle={PAGE_SUBTITLE}
       />
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-6">
           <ButtonClickTest />
           <CounterTest />
@@ -29,7 +29,7 @@ export default function Commands() {
         </div>
       </div>
 
-      <div className="mt-8 bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+      <div className="mt-4 sm:mt-8 bg-yellow-50 border border-yellow-200 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-yellow-800 mb-3">
           How to Use This Test Lab
         </h3>
