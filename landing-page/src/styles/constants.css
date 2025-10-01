@@ -1,0 +1,151 @@
+:root {
+  /* Spacings */
+  --spacing-base: 4px; /* 4px */
+  --spacing-xx-small: calc(var(--spacing-base) * 2); /* 8px */
+  --spacing-x-small: calc(var(--spacing-base) * 3); /* 12px */
+  --spacing-small: calc(var(--spacing-base) * 4); /* 16px */
+  --spacing-medium: calc(var(--spacing-base) * 5); /* 20px */
+  --spacing-large: calc(var(--spacing-base) * 8); /* 32px */
+  --spacing-x-large: calc(var(--spacing-base) * 10); /* 40px */
+  --spacing-xx-large: calc(var(--spacing-base) * 14); /* 56px */
+  --spacing-xxx-large: calc(var(--spacing-base) * 20); /* 80px */
+
+  --body-padding-inline: var(--spacing-medium);
+
+  /* Navigation */
+  --nav-height: 66px;
+  --nav-z-index: 9998;
+  --modal-z-index: 9999;
+
+  /* Breakpoints - matching NLX payload project */
+  --breakpoint-mobile: 767px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-large: 1280px;
+
+  @media (width >= 1024px) {
+    --body-padding-inline: var(--spacing-x-large);
+  }
+
+  /* Max width */
+  --max-width: 1512px;
+
+  /* Transitions */
+  --transition: 0.2s ease;
+
+  /* Blurs */
+  --backdrop-filter-blur: 27px;
+  --overlay-light: rgba(255, 255, 255, 0.2);
+
+  /* radius */
+  --border-radius: 10px;
+  --border-radius-full: 9999px;
+
+  /* Colors */
+  --color-white: #fff;
+  --color-black: #000;
+  --color-primary: #0040ff;
+  --color-blue-light: #91a2d4;
+  --color-blue-dark: #6c83c6;
+  --color-offwhite-1: #fafafa;
+  --color-offwhite-2: #e2dfdb;
+  --color-charcoal: #57585d;
+  --color-blur-dark: rgba(0, 0, 0, 0.05);
+  --color-blur-light: rgba(255, 255, 255, 0.1);
+
+  /* Use these for text over "white" and "black" */
+  --color-text: var(--color-black);
+  --color-text-light: var(--color-white);
+  --color-background: var(--color-white);
+
+  /* Font Family */
+  --font-family-primary:
+    "Haas Grotesk Text Web", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Monospace font variant */
+  --font-family-mono:
+    "Haas Text Mono Web", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+  /* Font Weights */
+  --font-weight-base: 400;
+  --font-weight-bold: 500;
+
+  /* Font Size */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-nav: 0.813rem; /* 13px */
+  --font-size-button: 0.813rem; /* 13px */
+  --font-size-mono: 0.813rem; /* 13px */
+  --font-size-tags: 0.813rem; /* 13px */
+  --font-size-m-h1: 3.75rem; /* 60px */
+  --font-size-m-h2: 3rem; /* 48px */
+  --font-size-m-h3: 2.5rem; /* 40px */
+  --font-size-m-h4: 2rem; /* 32px */
+  --font-size-m-h5: 1.5rem; /* 24px */
+  --font-size-m-h6: 1.25rem; /* 20px */
+  --font-size-s-h1: 2.375rem; /* 38px */
+  --font-size-s-h2: 2rem; /* 32px */
+  --font-size-s-h3: 2rem; /* 32px */
+  --font-size-s-h4: 1.5rem; /* 24px */
+  --font-size-s-h5: 1.5rem; /* 24px */
+  --font-size-s-h6: 1.25rem; /* 20px */
+
+  /* Line Height */
+  --line-height-xl: 1.3;
+  --line-height-lg: 1.4;
+  --line-height-base: 1.5;
+  --line-height-sm: 1.5;
+  --line-height-nav: 1.0769230769; /* 14px */
+  --line-height-button: 1.0769230769; /* 14px */
+  --line-height-tags: 0.615; /* ~8px on the 13px font size */
+  --line-height-mono: 1;
+  --line-height-m-h1: 1.2;
+  --line-height-m-h2: 1.2;
+  --line-height-m-h3: 1.2;
+  --line-height-m-h4: 1.2;
+  --line-height-m-h5: 1.2;
+  --line-height-m-h6: 1.2;
+  --line-height-s-h1: 1.2;
+  --line-height-s-h2: 1;
+  --line-height-s-h3: 1;
+  --line-height-s-h4: 1.2;
+  --line-height-s-h5: 1.2;
+  --line-height-s-h6: 1.2;
+
+  /* Letter Spacing */
+  --letter-spacing-s-h1: -0.024rem; /* -0.38px */
+  --letter-spacing-s-h2: -0.02rem; /* -0.32px */
+  --letter-spacing-s-h3: -0.02rem; /* -0.32px */
+  --letter-spacing-s-h4: -0.015rem; /* -0.24px */
+  --letter-spacing-s-h5: -0.015rem; /* -0.24px */
+  --letter-spacing-s-h6: -0.013rem; /* -0.2px */
+  --letter-spacing-m-h1: -0.038rem; /* -0.6px */
+  --letter-spacing-m-h2: -0.03rem; /* -0.48px */
+  --letter-spacing-m-h3: -0.025rem; /* -0.4px */
+  --letter-spacing-m-h4: -0.02rem; /* -0.32px */
+  --letter-spacing-m-h5: -0.015rem; /* -0.24px; */
+  --letter-spacing-m-h6: -0.013rem; /* -0.2px; */
+  --letter-spacing-tags: 0.0325rem; /* 0.52px */
+  --letter-spacing-mono: 0.0325rem; /* 0.52px */
+
+  /* Responsive letter spacing */
+  --letter-spacing-h1: var(--letter-spacing-s-h1);
+  --letter-spacing-h2: var(--letter-spacing-s-h2);
+  --letter-spacing-h3: var(--letter-spacing-s-h3);
+  --letter-spacing-h4: var(--letter-spacing-s-h4);
+  --letter-spacing-h5: var(--letter-spacing-s-h5);
+  --letter-spacing-h6: var(--letter-spacing-s-h6);
+
+  @media (width >= 1024px) {
+    --letter-spacing-h1: var(--letter-spacing-m-h1);
+    --letter-spacing-h2: var(--letter-spacing-m-h2);
+    --letter-spacing-h3: var(--letter-spacing-m-h3);
+    --letter-spacing-h4: var(--letter-spacing-m-h4);
+    --letter-spacing-h5: var(--letter-spacing-m-h5);
+    --letter-spacing-h6: var(--letter-spacing-m-h6);
+  }
+}

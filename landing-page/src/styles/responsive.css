@@ -1,0 +1,55 @@
+/* Responsive utilities matching NLX payload project breakpoints */
+
+/* Mobile: max-width 767px */
+@media (max-width: 767px) {
+  /* Mobile-specific overrides */
+  .text-h1 {
+    font-size: var(--font-size-s-h1);
+    line-height: var(--line-height-s-h1);
+  }
+  
+  .text-h2 {
+    font-size: var(--font-size-s-h2);
+    line-height: var(--line-height-s-h2);
+  }
+  
+  .text-h3 {
+    font-size: var(--font-size-s-h3);
+    line-height: var(--line-height-s-h3);
+  }
+  
+  .text-h4 {
+    font-size: var(--font-size-s-h4);
+    line-height: var(--line-height-s-h4);
+  }
+}
+
+/* Tablet: 768px to 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Tablet-specific styles */
+}
+
+/* Desktop: 1024px and up */
+@media (width >= 1024px) {
+  /* Desktop styles are handled in base.css */
+}
+
+/* Ensure smooth scrolling on mobile */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Prevent horizontal scroll on mobile */
+body {
+  overflow-x: hidden;
+}
+
+/* Improve readability on small screens */
+@media (max-width: 640px) {
+  p {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.6;
+  }
+}

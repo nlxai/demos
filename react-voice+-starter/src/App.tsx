@@ -11,7 +11,7 @@ import TicTacToe from './pages/TicTacToe'
 
 function App() {
   return (
-    <Router>
+    <Router basename="/react-voice+-starter">
       <TouchpointProvider>
           <Layout>
             <Routes>
