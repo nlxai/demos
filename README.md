@@ -2,7 +2,7 @@
 
 Welcome to the NLX Demo Applications repository! This collection provides hands-on examples to help you learn how to build conversational applications using NLX.
 
-## 🎯 What You'll Learn
+## What You'll Learn
 
 By exploring these demos, you'll gain practical experience with:
 
@@ -11,7 +11,7 @@ By exploring these demos, you'll gain practical experience with:
 - **Custom Voice Commands**: Create application-specific voice interactions
 - **Real-time Conversation Management**: Handle dynamic user interactions
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -31,9 +31,9 @@ By exploring these demos, you'll gain practical experience with:
 
 3. **Configure your NLX credentials** in each demo's configuration section
 
-## 📱 Available Demos
+## Available Demos
 
-### 🎤 React Voice+ Starter Kit
+### React Voice+ Starter Kit
 
 **Location**: [`react-voice+-starter/`](./react-voice+-starter/)
 
@@ -59,10 +59,10 @@ npm install
 npm run dev
 ```
 
-🌐 **Try it live**: [Hosted Demo](https://d1b3aj4p8jmb8z.cloudfront.net)
+**Try it live**: [Hosted Demo](https://d1b3aj4p8jmb8z.cloudfront.net)
 
 
-## 🛠 NLX Platform Overview
+## NLX Platform Overview
 
 These demos showcase various aspects of the NLX conversational AI platform:
 
@@ -77,7 +77,7 @@ These demos showcase various aspects of the NLX conversational AI platform:
 - `@nlxai/core`: Core conversation management functionality
 - `@nlxai/voice-plus-core`: Voice interaction capabilities
 
-## 📖 Resources
+## Resources
 
 ### Documentation
 - [NLX Developer Documentation](https://developers.nlx.ai/) - Complete SDK reference and guides
@@ -93,19 +93,19 @@ These demos showcase various aspects of the NLX conversational AI platform:
 - [Voice+ Demo Walkthrough](https://www.loom.com/share/aa8d29ee16cd463aa1ac66ebae29a3dc) - Video overview of the voice starter kit
 
 
-## 🔒 Security Notes
+## Security Notes
 
 - Never commit API keys or sensitive credentials
 - Use environment variables for configuration
 - Include `.env.example` files with placeholder values
 - Document security best practices in demo READMEs
 
-## 📄 License
+## License
 
 This repository is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
-*Built with ❤️ for the NLX developer community*
+*Built for the NLX developer community*
 
 **Need help?** Check out our [documentation](https://developers.nlx.ai/) or reach out to the [community](https://community.nlx.ai/).
