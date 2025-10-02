@@ -2,7 +2,7 @@
 
 This is the landing page for the NLX Demo Sandbox, serving as the main entry point for all demo applications.
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 # Install dependencies
@@ -18,7 +18,7 @@ npm run build
 npm run preview
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 landing-page/
@@ -37,14 +37,14 @@ landing-page/
 └── package.json        # Dependencies
 ```
 
-## 🎨 Styling
+## Styling
 
 The project uses:
 - **Tailwind CSS** for utility-first styling
 - Custom NLX color palette defined in `tailwind.config.js`
 - Responsive design for mobile and desktop
 
-## 🔗 Adding New Demos
+## Adding New Demos
 
 To add a new demo to the landing page:
 
@@ -68,28 +68,26 @@ To add a new demo to the landing page:
 }
 ```
 
-## 🚀 Deployment
+## Deployment
 
-This landing page is designed to be deployed to AWS S3 + CloudFront:
+The landing page can be deployed to any static hosting service:
 
 ```bash
 # Build the project
 npm run build
 
-# Deploy to S3
-aws s3 sync dist/ s3://sandbox.nlx.ai/ --delete
-
-# Invalidate CloudFront cache
-aws cloudfront create-invalidation --distribution-id YOUR_DISTRIBUTION_ID --paths "/*"
+# The dist/ directory contains all static files ready for deployment
 ```
 
-## 🔧 Configuration
+The application is designed to work with services like AWS S3 + CloudFront, Netlify, Vercel, or any other static hosting platform.
+
+## Configuration
 
 - **Port**: Development server runs on port 5174
 - **Base URL**: Configured for root path (`/`)
 - **Build Output**: Static files in `dist/` directory
 
-## 📄 License
+## License
 
 MIT License - see LICENSE file for details
 
